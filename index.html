@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="./js/app.js" type="module"></script>
+    <link rel="stylesheet"  href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Task Manager</h1>
+
+    <label for="filter-select">Filter:</label>
+    <select id="filter-select">
+        <option value="all">All</option>
+        <option value="completed">Completed</option>
+        <option value="incomplete">Incomplete</option>
+    </select>
+
+
+    <label for="sort-select">Sort by:</label>
+    <select id="sort-select">
+        <option value="date">Sort by Date</option>
+        <option value="name">Sort by Name</option>
+    </select>
+
+
+    <div class="task-list" id="task-list">
+        
+    </div>
+
+
+
+</body>
+</html>
