@@ -10,12 +10,27 @@ export default class TaskManager {
   }
 
   saveToLocalStorage() {
-    localStorage.setItem("tasks", JSON.stringify(this.tasks.map(task => task.toJSON())));
-  }
+    const tasksToSave = this.tasks.map(task => ({
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        creationDate: task.creationDate,
+        isCompleted: task.isCompleted
+    }));
+    localStorage.setItem("tasks", JSON.stringify(tasksToSave));
+}
 
   loadFromLocalStorage() {
     const tasks = JSON.parse(localStorage.getItem("tasks"));
-    this.tasks = tasks ? tasks.map(Task.fromJSON) : [];
+    this.tasks = tasks
+        ? tasks.map(taskData => new Task(
+              taskData.title,
+              taskData.description,
+              taskData.creationDate,
+              taskData.isCompleted,
+              taskData.id
+          ))
+        : [];
 }
 
   addTask(title, description) {
@@ -69,8 +84,8 @@ export default class TaskManager {
     return tasks;
   }
 
-  getTaskById(id) {
-    return this.tasks.find(task => task.id === id);
+  getTaskById(taskId) {
+    return this.tasks.find(task => task.id === String(taskId));
 }
 
   updateTask(id, updatedData) {

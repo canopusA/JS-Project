@@ -7,7 +7,7 @@ export default class Task {
   
    
     constructor(title, description, creationDate, isCompleted = false, id = null) {
-      this.#id = crypto.randomUUID();
+      this.#id = id || crypto.randomUUID();
       this.#title = title;
       this.#description = description;
       this.#creationDate = creationDate;

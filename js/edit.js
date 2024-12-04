@@ -1,32 +1,40 @@
 import TaskManager from './task.Manager.js';
 
 const taskManager = new TaskManager();
+
 taskManager.loadFromLocalStorage();
 
-const params = new URLSearchParams(window.location.search);
-const taskId = params.get('id');
+
+const urlParams = new URLSearchParams(window.location.search);
+const taskId = urlParams.get("id");
+
+console.log("Task ID from URL:", taskId);
+console.log("Loaded tasks:", taskManager.tasks);
+
 const task = taskManager.getTaskById(taskId);
 
-const form = document.getElementById("edit-task-form");
-const titleInput = document.getElementById("title");
-const descriptionInput = document.getElementById("description");
-const backBtn = document.getElementById("back-btn");
-
 if (!task) {
+    console.error("Task not found!");
     document.body.innerHTML = "<h1>404 - Task Not Found</h1>";
 } else {
-    titleInput.value = task.title;
-    descriptionInput.value = task.description;
+    console.log("Found task:", task);
+    document.getElementById("title").value = task.title;
+    document.getElementById("description").value = task.description;
+
+    document.getElementById("edit-task-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        task.title = document.getElementById("title").value.trim();
+        task.description = document.getElementById("description").value.trim();
+        taskManager.saveToLocalStorage();
+        alert("Task updated successfully!");
+        window.location.href = "index.html";
+    });
 }
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    task.title = titleInput.value;
-    task.description = descriptionInput.value;
-    taskManager.saveToLocalStorage();
-    window.location.href = "index.html";
+document.getElementById('back-btn').addEventListener('click', () => {
+    window.location.href = 'index.html';
 });
+       
 
-backBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
-});
+
+

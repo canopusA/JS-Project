@@ -40,7 +40,7 @@ function renderTaskList() {
             </div>
             <div class="task-actions">
                 <button class="complete-btn">Toggle Complete</button>
-                <button class="edit-btn" onclick="window.location.href='edit.html?id=${task.id}'">Edit</button>
+               <button class="edit-btn" data-id="${task.id}">Edit</button>
                 <button class="delete-btn">Delete</button>
             </div>
         `;
@@ -56,10 +56,11 @@ function renderTaskList() {
             renderTaskList();
         });
 
-        taskElement.querySelector('.edit-btn').addEventListener('click', (e) => {
-            const taskId = e.target.getAttribute('data-id');
-            window.location.href = `edit.html?id=${taskId}`;
+        taskElement.querySelector(".edit-btn").addEventListener("click", () => {
+            window.location.href = `edit.html?id=${task.id}`;
         });
+
+       
 
         taskListElement.appendChild(taskElement);
     });

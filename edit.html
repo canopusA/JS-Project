@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Task</title>
-    <link rel="stylesheet" href="style.css">
     <script defer src="./js/edit.js" type="module"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="edit-container">
-        <h1>Edit Task</h1>
-        <form id="edit-task-form">
+    <h1>Edit Task</h1>
+    <form id="edit-task-form">
+        <div>
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-            
+            <input type="text" id="title" required>
+        </div>
+        <div>
             <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
-            
-            <button type="submit">Save</button>
-            <button type="button" id="back-btn">Cancel</button>
-        </form>
-    </div>
+            <textarea id="description" required></textarea>
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+    <button id="back-btn">Back to Main</button>
+   
 </body>
 </html>
