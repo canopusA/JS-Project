@@ -5,7 +5,6 @@ taskManager.loadFromLocalStorage();
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Элементы, куда будем выводить информацию о задаче
     const taskTitleElement = document.getElementById('task-title');
     const taskDescriptionElement = document.getElementById('task-description');
     const taskStatusElement = document.getElementById('task-status');
