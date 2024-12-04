@@ -3,18 +3,41 @@ import TaskManager from './task.Manager.js';
 const taskManager = new TaskManager();
 taskManager.loadFromLocalStorage();
 
-const urlParams = new URLSearchParams(window.location.search);
-const taskId = urlParams.get("id");
 
-const task = taskManager.getTaskById(taskId);
+document.addEventListener('DOMContentLoaded', () => {
+    // Элементы, куда будем выводить информацию о задаче
+    const taskTitleElement = document.getElementById('task-title');
+    const taskDescriptionElement = document.getElementById('task-description');
+    const taskStatusElement = document.getElementById('task-status');
+    const taskCreationDateElement = document.getElementById('task-creation-date');
+    const backBtn = document.getElementById('back-btn');
 
-if (!task) {
-    render404();
-} else {
-    document.getElementById("task-title").textContent = task.title;
-    document.getElementById("task-description").textContent = task.description;
-    document.getElementById("task-status").textContent = task.isCompleted ? "Completed" : "Incomplete";
-}
+    const urlParams = new URLSearchParams(window.location.search);
+    const taskId = urlParams.get('id');
+
+    if (taskId) {
+        const task = taskManager.getTaskById(taskId);
+
+        if (task) {
+            taskTitleElement.textContent = task.title;
+            taskDescriptionElement.textContent = task.description;
+            taskStatusElement.textContent = task.isCompleted ? 'Completed' : 'Incomplete';
+            taskCreationDateElement.textContent = task.creationDate;
+        } else {
+            console.error('Task not found');
+            render404();
+            taskTitleElement.textContent = 'Task not found';
+        }
+    } else {
+        console.error('No task ID found in the URL');
+        taskTitleElement.textContent = 'No task ID specified';
+    }
+
+    backBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+});
+
 
 function render404() {
     document.body.innerHTML = `
