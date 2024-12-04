@@ -9,20 +9,34 @@ export default class TaskManager {
     this.sortCriteria = 'date';
   }
 
+  saveToLocalStorage() {
+    localStorage.setItem("tasks", JSON.stringify(this.tasks.map(task => task.toJSON())));
+  }
+
+  loadFromLocalStorage() {
+    const tasks = JSON.parse(localStorage.getItem("tasks"));
+    this.tasks = tasks ? tasks.map(Task.fromJSON) : [];
+}
+
   addTask(title, description) {
     if(validateDescription(description, title)){
       const creationDate = new Date().toLocaleString('en-GB');
       const task = new Task(title, description, creationDate);
       this.tasks.push(task);
+      console.log("Task added:", task);
+      this.saveToLocalStorage();
+      return true;
     }
     else{
       console.log("Wrong validation!");
+      return false;
     }
   }
 
-  deleteTask(currentTask){
+  deleteTask(currentTask) {
     this.tasks = this.tasks.filter(task => task.id !== currentTask.id);
-  }
+    this.saveToLocalStorage();
+}
 
 
   getVisibleTasks() {
@@ -31,7 +45,11 @@ export default class TaskManager {
   }
   
   toggleTaskStatus(currentTask) {
-    currentTask.toggleCompletion();
+      const targetTask = this.tasks.find(t => t.id === currentTask.id);
+      if (targetTask) {
+          targetTask.isCompleted = !targetTask.isCompleted;
+          this.saveToLocalStorage();
+      }
   }
 
   getFilteredTasks() {
@@ -51,7 +69,17 @@ export default class TaskManager {
     return tasks;
   }
 
+  getTaskById(id) {
+    return this.tasks.find(task => task.id === id);
+}
 
+  updateTask(id, updatedData) {
+    const task = this.getTaskById(id);
+    if (task) {
+        Object.assign(task, updatedData);
+        this.saveToLocalStorage();
+    }
+  }
 
 
   getTasks() {

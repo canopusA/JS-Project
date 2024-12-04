@@ -5,14 +5,14 @@ export default class Task {
     #creationDate;
     #isCompleted;
   
-    constructor(title, description, creationDate, isCompleted = false) {
+   
+    constructor(title, description, creationDate, isCompleted = false, id = null) {
       this.#id = crypto.randomUUID();
       this.#title = title;
       this.#description = description;
       this.#creationDate = creationDate;
       this.#isCompleted = isCompleted;
-    }
-  
+  }
   
     get id() {
       return this.#id;
@@ -34,6 +34,15 @@ export default class Task {
       return this.#isCompleted;
     }
     
+    set title(value) {
+      this.#title = value;
+    }
+    set description(value) {
+      this.#description = value;
+    }
+    set isCompleted(value) {
+      this.#isCompleted = value;
+    }
     
     editTask(newTitle, newDescription) {
       this.title = newTitle;
@@ -43,5 +52,19 @@ export default class Task {
     toggleCompletion() {
       this.#isCompleted = !this.#isCompleted;
     }
+
+    static fromJSON(data) {
+      return new Task(data.title, data.description, data.creationDate, data.isCompleted, data.id);
+  }
+
+    toJSON() {
+      return {
+          id: this.id,
+          title: this.title,
+          description: this.description,
+          creationDate: this.creationDate,
+          isCompleted: this.isCompleted,
+      };
+  }
   
   }
